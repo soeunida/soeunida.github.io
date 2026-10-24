@@ -88,9 +88,9 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 .profile { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 24px); padding: 28px 24px 24px; display: grid; gap: 22px; }
 .who { display: grid; justify-items: center; text-align: center; gap: 4px; }
 .avatar {
-  width: 96px; height: 96px; border-radius: 50%; margin-bottom: 10px;
-  display: grid; place-items: center; background: var(--green-soft); color: var(--accent);
-  font: 600 1.9rem/1 var(--sans); letter-spacing: .02em;
+  width: 112px; height: 112px; border-radius: 50%; margin-bottom: 10px;
+  object-fit: cover; object-position: 50% 18%;
+  background: var(--green-soft); border: 3px solid var(--card); box-shadow: 0 0 0 1px var(--line);
 }
 .who h1 { font: 700 1.35rem/1.3 var(--kr); color: var(--ink); margin: 0; }
 .who .en { color: var(--muted); font-size: 0.95rem; }
@@ -207,7 +207,7 @@ footer { color: var(--muted); font-size: 0.8rem; text-align: center; }
 <div class="wrap">
   <aside class="card profile">
     <div class="who">
-      <div class="avatar" aria-hidden="true">SC</div>
+      <img class="avatar" src="profile.png" alt="Soeun Choi" width="112" height="112">
       <h1>최소은</h1>
       <div class="en">Soeun Choi</div>
       <div class="lab">AI Computing Platform Laboratory</div>
