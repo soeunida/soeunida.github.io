@@ -147,6 +147,9 @@ main { display: grid; gap: 24px; min-width: 0; }
 .item-main { min-width: 0; display: grid; gap: 3px; }
 .item-title { font-weight: 500; color: var(--ink); line-height: 1.5; }
 .item-sub { font-size: 0.84rem; color: var(--muted); }
+.paper-link:hover { color: var(--green); text-decoration: underline; text-underline-offset: 3px; }
+.ext { width: 13px; height: 13px; margin-left: 5px; vertical-align: -1px; stroke: var(--muted); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.paper-link:hover .ext { stroke: var(--green); }
 .item-sub b { color: var(--ink); font-weight: 600; }
 .item-meta { font-size: 0.82rem; color: var(--green); }
 .item-kr { font: 400 0.84rem/1.55 var(--kr); color: var(--muted); }
@@ -514,12 +517,12 @@ footer { color: var(--muted); font-size: 0.8rem; text-align: center; }
 const PUBS = [
   { d: "2026-10-21", t: "Quantization-Induced Decision Risk: Budgeting Supervision for a Quantized Selector", a: "Soeun Choi, Jieui Kang, Eunjoung Yoo, Yeonhee Kim, Jaehyeong Sim", v: "IEEE BigData 2026", kind: "conf", status: "pub", first: true, notes: ["KIISE excellent conference", "Acceptance rate 19.4%"] },
   { d: "2026-10-17", t: "CSP-KD: Clustering-Based Sentence Pruning for Multi-Teacher Knowledge Distillation", a: "Soeun Choi, Jaehyeong Sim", v: "CCCI 2026", kind: "conf", status: "pub", first: true },
-  { d: "2026-10-03", t: "Genetic Fragmentation Gradient Descent: Failure-Constrained Scheduling for GPU-Sharing Clusters", a: "Soeun Choi, Jaehyeong Sim", v: "The Journal of Supercomputing", kind: "journal", status: "pub", first: true },
+  { d: "2026-10-23", t: "Genetic Fragmentation Gradient Descent: Failure-Constrained Scheduling for GPU-Sharing Clusters", url: "https://doi.org/10.1007/s11227-026-08928-1", a: "Soeun Choi, Jaehyeong Sim", v: "The Journal of Supercomputing", kind: "journal", status: "pub", first: true },
   { d: "2025-10-17", t: "DS-CAE: A Dual-Stream Cross-Attentive Autoencoder for Robust and Cluster-Aware Retrieval-Augmented Generation", a: "Soeun Choi, Yejin Lee, Juhee Kim, Minji Kim, Jaehyeong Sim", v: "CCCI 2025", kind: "conf", status: "pub", first: true },
-  { d: "2025-10-17", t: "LoRA-PIM: In-Memory Delta-Weight Injection for Multi-Adapter LLM Serving", a: "Soeun Choi, Jaehyeong Sim", v: "ISOCC 2025", kind: "conf", status: "pub", first: true },
-  { d: "2024-11-25", t: "SpDRAM: Efficient In-DRAM Acceleration of Sparse Matrix-Vector Multiplication", a: "Jieui Kang, Soeun Choi, Eunjin Lee, Jaehyeong Sim", v: "IEEE Access, vol. 12, pp. 176009–176021", kind: "journal", status: "pub" },
-  { d: "2024-10-17", t: "OCW: Enhancing Few-Shot Learning with Optimized Class-Weighting Methods", a: "Jieui Kang, Subean Lee, Eunseo Kim, Soeun Choi, Jaehyeong Sim", v: "CCCI 2024", kind: "conf", status: "pub" },
-  { d: "2024-08-20", t: "An Energy-Efficient Hardware Accelerator for On-Device Inference of YOLOX", a: "Kyungmi Kim, Soeun Choi, Eunkyeol Hong, Yoonseo Jang, Jaehyeong Sim", v: "ISOCC 2024", kind: "conf", status: "pub" },
+  { d: "2025-10-17", t: "LoRA-PIM: In-Memory Delta-Weight Injection for Multi-Adapter LLM Serving", url: "https://doi.org/10.1109/isocc66390.2025.11329773", a: "Soeun Choi, Jaehyeong Sim", v: "ISOCC 2025", kind: "conf", status: "pub", first: true },
+  { d: "2024-11-25", t: "SpDRAM: Efficient In-DRAM Acceleration of Sparse Matrix-Vector Multiplication", url: "https://doi.org/10.1109/access.2024.3505622", a: "Jieui Kang, Soeun Choi, Eunjin Lee, Jaehyeong Sim", v: "IEEE Access, vol. 12, pp. 176009–176021", kind: "journal", status: "pub" },
+  { d: "2024-10-17", t: "OCW: Enhancing Few-Shot Learning with Optimized Class-Weighting Methods", url: "https://doi.org/10.1109/ccci61916.2024.10736452", a: "Jieui Kang, Subean Lee, Eunseo Kim, Soeun Choi, Jaehyeong Sim", v: "CCCI 2024", kind: "conf", status: "pub" },
+  { d: "2024-08-20", t: "An Energy-Efficient Hardware Accelerator for On-Device Inference of YOLOX", url: "https://doi.org/10.1109/isocc62682.2024.10762515", a: "Kyungmi Kim, Soeun Choi, Eunkyeol Hong, Yoonseo Jang, Jaehyeong Sim", v: "ISOCC 2024", kind: "conf", status: "pub" },
   { d: "2024-05-13", t: "Q-LAtte: An Efficient and Versatile LSTM Model for Quantized Attention-Based Time Series Forecasting in Building Energy Applications", a: "Soeun Choi, Jieui Kang, Jihye Park, Jaehyeong Sim", v: "IEEE Access, vol. 12, pp. 69325–69341", kind: "journal", status: "pub", first: true, cofirst: true },
   { d: "", t: "CARE-KV: Cost-Aware Residual Error Allocation for Low-Bit KV Cache Quantization", a: "Soeun Choi, Jaehyeong Sim", v: "NAACL", kind: "conf", status: "review", first: true },
   { d: "", t: "Session Folded Prompt Adaptation for W8 Backbone LLM Inference", a: "Soeun Choi, Jaehyeong Sim", v: "EACL", kind: "conf", status: "review", first: true },
@@ -548,7 +551,7 @@ function render(f) {
     const first = p.first ? `<span class="pill first">${p.cofirst ? "Co-first author" : "First author"}</span>` : "";
     return `<li class="item">
       <div class="item-main">
-        <span class="item-title">${esc(p.t)}</span>
+        ${p.url ? `<a class="item-title paper-link" href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.t)}<svg class="ext" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a>` : `<span class="item-title">${esc(p.t)}</span>`}
         <span class="item-sub">${bold(p.a)}</span>
         <span class="item-meta">${meta}</span>
       </div>
