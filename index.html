@@ -24,6 +24,8 @@
   --red: #e5484d;
   --amber: #a15c00;
   --amber-soft: #fdf1df;
+  --s-journal: #1f8a55;
+  --s-conf: #3b6fd8;
   --sans: "Inter", "Noto Sans KR", system-ui, -apple-system, "Segoe UI", sans-serif;
   --kr: "Noto Sans KR", "Inter", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
   --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
@@ -44,6 +46,8 @@
     --red: #ff6b6f;
     --amber: #f0b45a;
     --amber-soft: #33281a;
+  --s-journal: #3fa86f;
+  --s-conf: #5f8de6;
   }
 }
 :root[data-theme="dark"] {
@@ -61,6 +65,8 @@
   --red: #ff6b6f;
   --amber: #f0b45a;
   --amber-soft: #33281a;
+  --s-journal: #3fa86f;
+  --s-conf: #5f8de6;
 }
 
 * { box-sizing: border-box; }
@@ -165,6 +171,41 @@ main { display: grid; gap: 24px; min-width: 0; }
 .filters button[aria-pressed="true"] { background: var(--card); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.08); }
 .empty { color: var(--muted); padding: 16px 0; margin: 0; }
 
+/* at a glance */
+.glance { padding: 20px 24px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 28px; align-items: center; }
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 18px; margin: 0; }
+.stat { display: grid; gap: 2px; }
+.stat dd { order: -1; }
+.stat dd { margin: 0; font: 700 1.6rem/1.1 var(--sans); color: var(--ink); font-variant-numeric: tabular-nums; }
+.stat dt { font-size: 0.8rem; color: var(--muted); }
+.stat dt small { display: block; color: var(--muted); font-size: 0.74rem; }
+.chart { display: grid; gap: 8px; }
+.chart-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.chart-title { font-size: 0.82rem; font-weight: 600; color: var(--ink); }
+.legend { display: flex; gap: 12px; font-size: 0.76rem; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 5px; }
+.legend i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+.bars { display: flex; align-items: flex-end; gap: 10px; height: 96px; border-bottom: 1px solid var(--line); }
+.col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 4px; height: 100%; }
+.tot { font-size: 0.76rem; font-weight: 600; color: var(--text); font-variant-numeric: tabular-nums; }
+.stack { width: 26px; display: flex; flex-direction: column; gap: 2px; }
+.seg { width: 100%; outline-offset: 2px; cursor: default; }
+.stack > .seg:first-child { border-radius: 4px 4px 0 0; }
+.seg.journal { background: var(--s-journal); }
+.seg.conf { background: var(--s-conf); }
+.xl { display: flex; gap: 10px; }
+.xl span { flex: 1; text-align: center; font-size: 0.74rem; color: var(--muted); }
+#tip {
+  position: fixed; z-index: 20; pointer-events: none; padding: 6px 9px; border-radius: 6px;
+  background: var(--ink); color: var(--card); font-size: 0.76rem; white-space: nowrap;
+}
+@media (max-width: 560px) {
+  .glance { grid-template-columns: 1fr; gap: 18px; padding: 18px; }
+  .stats { grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .stat dd { font-size: 1.3rem; }
+  .stat dt { font-size: 0.72rem; }
+}
+
 /* skills */
 .skills { display: grid; grid-template-columns: 130px 1fr; margin: 0; }
 .skills dt, .skills dd { padding: 12px 0; border-bottom: 1px solid var(--line); }
@@ -237,6 +278,24 @@ footer { color: var(--muted); font-size: 0.8rem; text-align: center; }
   </aside>
 
   <main>
+    <section class="card glance" aria-label="At a glance">
+      <dl class="stats">
+        <div class="stat"><dt>Peer-reviewed papers <small id="st-rev">+2 in review</small></dt><dd id="st-pub">9</dd></div>
+        <div class="stat"><dt>First-author papers</dt><dd id="st-first">6</dd></div>
+        <div class="stat"><dt>Patents</dt><dd>12</dd></div>
+        <div class="stat"><dt>Awards</dt><dd>2</dd></div>
+      </dl>
+      <div class="chart">
+        <div class="chart-head">
+          <span class="chart-title">Publications per year</span>
+          <span class="legend"><span><i style="background:var(--s-journal)"></i>Journal</span><span><i style="background:var(--s-conf)"></i>Conference</span></span>
+        </div>
+        <div class="bars" id="bars" role="img"></div>
+        <div class="xl" id="xl"></div>
+      </div>
+    </section>
+    <div id="tip" hidden></div>
+
     <section class="card sec" id="about">
       <div class="sec-head"><h2><svg class="ico"><use href="#i-user"/></svg>About</h2></div>
       <div class="sec-body">
@@ -505,6 +564,42 @@ document.querySelectorAll(".filters button").forEach(b => b.addEventListener("cl
   render(b.dataset.f);
 }));
 render("all");
+
+// at-a-glance numbers and publications-per-year chart, derived from PUBS
+const done = PUBS.filter(p => p.status !== "review");
+document.getElementById("st-pub").textContent = done.length;
+document.getElementById("st-first").textContent = done.filter(p => p.first).length;
+document.getElementById("st-rev").textContent = `+${PUBS.length - done.length} in review`;
+
+const YEARS = ["2024", "2025", "2026", "In review"];
+const agg = YEARS.map(y => ({ y, journal: 0, conf: 0 }));
+for (const p of PUBS) {
+  const a = agg.find(a => a.y === (p.status === "review" ? "In review" : p.d.slice(0, 4)));
+  if (a) a[p.kind]++;
+}
+const maxTot = Math.max(...agg.map(a => a.journal + a.conf));
+const unit = 62 / maxTot;
+const LABEL = { journal: "Journal", conf: "Conference" };
+const seg = (a, k) => a[k] ? `<div class="seg ${k}" tabindex="0" style="height:${a[k] * unit}px" data-tip="${a.y} · ${LABEL[k]}: ${a[k]}" aria-label="${a.y}, ${LABEL[k]}: ${a[k]}"></div>` : "";
+const bars = document.getElementById("bars");
+bars.innerHTML = agg.map(a => `<div class="col"><span class="tot">${a.journal + a.conf}</span><div class="stack">${seg(a, "conf")}${seg(a, "journal")}</div></div>`).join("");
+bars.setAttribute("aria-label", "Publications per year: " + agg.map(a => `${a.y} ${a.journal} journal, ${a.conf} conference`).join("; "));
+document.getElementById("xl").innerHTML = agg.map(a => `<span>${a.y}</span>`).join("");
+
+const tip = document.getElementById("tip");
+const showTip = e => {
+  const r = e.target.getBoundingClientRect();
+  tip.textContent = e.target.dataset.tip;
+  tip.hidden = false;
+  tip.style.left = Math.max(8, r.left + r.width / 2 - tip.offsetWidth / 2) + "px";
+  tip.style.top = (r.top - tip.offsetHeight - 6) + "px";
+};
+bars.querySelectorAll(".seg").forEach(s => {
+  s.addEventListener("mouseenter", showTip);
+  s.addEventListener("focus", showTip);
+  s.addEventListener("mouseleave", () => { tip.hidden = true; });
+  s.addEventListener("blur", () => { tip.hidden = true; });
+});
 </script>
 </body>
 </html>
